@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["es2021"],
+    "module": "CommonJS",
+    "target": "es2021",
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["index.ts"],
+  "exclude": ["node_modules"]
+}
