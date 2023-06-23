@@ -78,12 +78,12 @@ impl VsockSocket {
     let emit_connection = self.thread_safe_emit_connection()?;
 
     thread::spawn(move || loop {
-      println!("rs before accept");
+      // println!("rs before accept");
 
       let fd = match accept(server_fd) {
         Ok(fd) => fd,
         Err(err) => {
-          println!("rs accept err {0}", err);
+          // println!("rs accept err {0}", err);
 
           emit_error.call(
             Ok(format!("Accept connection failed: {0}", err)),
@@ -93,7 +93,7 @@ impl VsockSocket {
         }
       };
 
-      println!("rs accept emit");
+      // println!("rs accept emit");
 
       emit_connection.call(Ok(fd), ThreadsafeFunctionCallMode::Blocking);
     });
@@ -186,7 +186,7 @@ impl VsockSocket {
     let emit_end = self.thread_safe_emit_end()?;
 
     thread::spawn(move || loop {
-      println!("rs before recv length");
+      // println!("rs before recv length");
 
       let mut buf: Vec<u8> = vec![0u8; BUF_MAX_LEN];
       let mut ret: i32 = -1;
@@ -210,7 +210,7 @@ impl VsockSocket {
         Ordering::Greater => {
           let size = ret as usize;
           let buf = buf[0..size].to_vec();
-          println!("rs emit data {0}", String::from_utf8(buf.clone()).unwrap());
+          // println!("rs emit data {0}", String::from_utf8(buf.clone()).unwrap());
           emit_data.call(Ok(buf), ThreadsafeFunctionCallMode::Blocking);
         }
         Ordering::Less => {
