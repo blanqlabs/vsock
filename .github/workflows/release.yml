@@ -199,7 +199,6 @@ jobs:
       - name: Download platform artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-*
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
