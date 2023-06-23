@@ -33,5 +33,7 @@
     "universal": "napi universal",
     "version": "napi version"
   },
-  "packageManager": "yarn@3.6.0"
+  "packageManager": "yarn@3.6.0",
+  "repository": "https://github.com/blanqlabs/vsock",
+  "description": "Node addon for vsock communication"
 }
