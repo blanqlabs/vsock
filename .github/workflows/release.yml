@@ -85,12 +85,22 @@ jobs:
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
-      - name: Upload artifact
+      - name: Upload platform artifacts
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
+      - name: Build typescript
+        run: yarn build:ts
+      - name: Upload api artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-${{ matrix.settings.target }}
+          path: |
+            *.d.ts
+            *.js
+          if-no-files-found: error      
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -112,10 +122,15 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-      - name: Download artifacts
+      - name: Download platform artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
+          path: .
+      - name: Download api artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: api-x86_64-unknown-linux-gnu
           path: .
       - name: List packages
         run: ls -R .
@@ -145,10 +160,15 @@ jobs:
         run: |
           yarn config set supportedArchitectures.libc "musl"
           yarn install
-      - name: Download artifacts
+      - name: Download platform artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
+          path: .
+      - name: Download api artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: api-x86_64-unknown-linux-musl
           path: .
       - name: List packages
         run: ls -R .
@@ -171,11 +191,15 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-      - name: Build typescript
-        run: yarn build:ts
-      - name: Download all artifacts
+      - name: Download api artifacts
         uses: actions/download-artifact@v3
         with:
+          name: api-x86_64-unknown-linux-musl
+          path: .
+      - name: Download platform artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-*
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
