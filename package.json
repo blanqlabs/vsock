@@ -3,6 +3,12 @@
   "version": "0.0.2",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "addon.js",
+    "addon.d.ts"
+  ],
   "napi": {
     "name": "vsock",
     "triples": {
@@ -16,13 +22,39 @@
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.16.1",
-    "ava": "^5.1.1"
+    "@swc-node/register": "^1.6.6",
+    "@swc/core": "^1.3.66",
+    "@taplo/cli": "^0.5.2",
+    "@types/node": "^20.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "ava": "^5.1.1",
+    "chalk": "^5.2.0",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.3"
   },
   "ava": {
-    "timeout": "3m"
+    "require": [
+      "@swc-node/register"
+    ],
+    "extensions": [
+      "ts"
+    ],
+    "timeout": "3m",
+    "workerThreads": false,
+    "environmentVariables": {
+      "TS_NODE_PROJECT": "./tsconfig.json"
+    }
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 16"
   },
   "scripts": {
     "artifacts": "napi artifacts",
